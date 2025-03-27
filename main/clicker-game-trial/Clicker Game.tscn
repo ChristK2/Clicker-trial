@@ -1,3 +1,11 @@
-[gd_scene format=3 uid="uid://g0tntci4dqcs"]
+[gd_scene load_steps=2 format=3 uid="uid://g0tntci4dqcs"]
+
+[ext_resource type="PackedScene" uid="uid://csygufa8hrbyc" path="res://clickable_coin.tscn" id="1_djgne"]
 
 [node name="Clicker game" type="Node2D"]
+
+[node name="ClickableCoin" parent="." instance=ExtResource("1_djgne")]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(1, 1)
+zoom = Vector2(4, 4)
