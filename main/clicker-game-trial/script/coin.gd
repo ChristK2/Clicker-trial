@@ -7,23 +7,21 @@ var last_click_time = 0.0   # Tracks the time between clicks
 var decay_rate = 1.0       # How fast the speed decreases per second
 var frame_timer = 0.0       # Tracks animation timing
 var idle_reset_timer = 0.0  # Timer
-var is_animating = false    # Control animation start
+var is_animating = false    # Control start animation (When clicked)
 
 func _ready():
 	sprite.frame = 0
 	is_animating = false
 
 func _process(delta):
-	# Only animate if the sprite has been activated by a click
 	if is_animating:
 		if speed_multiplier > 0.0:
 			speed_multiplier = max(speed_multiplier - decay_rate * delta, 0.0) # Gradually reduce speed
 
-			# Advance animation based on speed
 			frame_timer += speed_multiplier * delta
 			if frame_timer >= 1.0 / sprite.sprite_frames.get_frame_count("turn"):
 				frame_timer = 0.0
-				sprite.frame = (sprite.frame + 1) % sprite.sprite_frames.get_frame_count("turn")
+				sprite.frame = (sprite.frame + 1) % sprite.sprite_frames.get_frame_count("turn") # Animation based on speed
 
 			# Track inactivity time 👇
 			idle_reset_timer = 0.0  # Reset the timer while animation is active
