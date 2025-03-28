@@ -34,7 +34,7 @@ func _process(delta):
 				idle_reset_timer = 0.0  # Reset the timer
 				is_animating = false    # Stop animating until next click
 
-func _on_area_input_event(viewport, event, shape_idx):
+func _on_area_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton and event.pressed:
 		var current_time = Time.get_ticks_msec() / 1000.0
 		var click_interval = current_time - last_click_time
