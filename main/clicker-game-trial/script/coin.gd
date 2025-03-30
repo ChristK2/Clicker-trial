@@ -1,10 +1,13 @@
 extends Area2D
 
 @onready var sprite = $Coin
+@onready var score_counter: Node = %ScoreCounter
+@onready var pickup_coin: AudioStreamPlayer2D = $PickupCoin
+@onready var vfx: GPUParticles2D = $vfx
 
 var speed_multiplier = 1.2  # Base speed
 var last_click_time = 0.0   # Tracks the time between clicks
-var decay_rate = 1.0       # How fast the speed decreases per second
+var decay_rate = 0.9       # How fast the speed decreases per second
 var frame_timer = 0.0       # Tracks animation timing
 var idle_reset_timer = 0.0  # Timer
 var is_animating = false    # Control start animation (When clicked)
@@ -12,6 +15,7 @@ var is_animating = false    # Control start animation (When clicked)
 func _ready():
 	sprite.frame = 0
 	is_animating = false
+	vfx.emitting = false
 
 func _process(delta):
 	if is_animating:
@@ -37,6 +41,7 @@ func _on_area_input_event(_viewport, event, _shape_idx):
 		var current_time = Time.get_ticks_msec() / 1000.0
 		var click_interval = current_time - last_click_time
 		last_click_time = current_time
+		score_counter.add_money()
 
 		# Activate animation
 		if not is_animating:
@@ -49,3 +54,7 @@ func _on_area_input_event(_viewport, event, _shape_idx):
 			speed_multiplier = 1.2  # Reset if clicks slow down
 
 		idle_reset_timer = 0.0 # Reset idle timer when clicked
+		
+		if not pickup_coin.playing:
+			pickup_coin.play()
+			
